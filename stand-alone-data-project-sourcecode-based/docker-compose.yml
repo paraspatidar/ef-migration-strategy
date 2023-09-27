@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    ports:
+      - '5435:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: customerdb
+    healthcheck:
+      test: [ 'CMD', 'pg_isready', '-q', '-d', 'customerdb', '-U', 'postgres' ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      - db:/var/lib/postgresql
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+  db_migrate:
+    image: customerdb-data
+    build:
+      context: ./CustomerManagement.Data
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__DatabaseConnection: "Host=db;Database=customerdb;Username=postgres;Password=postgres"
+
+volumes:
+  db: { }
+  

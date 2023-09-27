@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "custommigration.runner": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
