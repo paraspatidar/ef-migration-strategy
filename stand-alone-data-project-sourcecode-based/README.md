@@ -1,3 +1,5 @@
+### How to spin up docker compose file
+
 1. In shell/command prompt , Navigate to folder where docker-compose.yaml file is located
 2. Run docker compose command : docker-compose up --build
 3. This will do the magic written in `Dockerfile` and `Makefile`.
